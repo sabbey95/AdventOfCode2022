@@ -17,14 +17,11 @@ aoc1 = do
 type Depths = [Integer]
 
 parseInput :: Parser Depths
-parseInput = do
-  some $ token integer
+parseInput = undefined
 
 part1 :: Depths -> Int
-part1 = sonarSweep
+part1 = undefined
 
 part2 :: Depths -> Int
-part2 = sonarSweep . map (\(x, y, z) -> x + y + z) . window3
+part2 = undefined
 
-sonarSweep :: Depths -> Int
-sonarSweep = length . filter id . map (\(x, y) -> y > x) . window2
