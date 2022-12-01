@@ -4,24 +4,54 @@ module Solutions.Day1
 
 import           Common.AoCSolutions (AoCSolution (MkAoCSolution),
                                       printSolutions, printTestSolutions)
-import           Data.List           (tails)
-import           Text.Trifecta       (Parser, TokenParsing (token), integer,
-                                      some)
+import Data.List ( tails, sort )
+import Text.Trifecta
+    ( Parser,
+      TokenParsing(token),
+      integer,
+      some,
+      Parsing(unexpected),
+      sepBy,
+      CharParsing(string),
+      optional,
+      oneOf,
+      characterChar,
+      whiteSpace,
+      integer' )
 import Common.ListUtils (window3, window2)
+import Text.Parser.Char (newline)
+import Text.Parser.Combinators
+import Text.Read (Lexeme(String))
+import Combinatorics.Mastermind (Eval(white))
 
 aoc1 :: IO ()
 aoc1 = do
   printSolutions 1 $ MkAoCSolution parseInput part1
   printSolutions 1 $ MkAoCSolution parseInput part2
 
-type Depths = [Integer]
+type Inventory = [Integer]
 
-parseInput :: Parser Depths
-parseInput = undefined
+parseInput :: Parser [Inventory]
+parseInput = do
+  some parseInventory
 
-part1 :: Depths -> Int
-part1 = undefined
+parseInventory :: Parser Inventory
+parseInventory = do
+  inv <- some parseInt
+  optional newline
+  pure inv
 
-part2 :: Depths -> Int
-part2 = undefined
+parseInt :: Parser Integer
+parseInt = do
+  i <- integer'
+  newline
+  pure i
 
+part1 :: [Inventory] -> Integer
+part1 = solve 1
+
+part2 :: [Inventory] -> Integer
+part2 = solve 3
+
+solve :: Int -> [Inventory] -> Integer
+solve n = sum .take n . reverse . sort . map sum
