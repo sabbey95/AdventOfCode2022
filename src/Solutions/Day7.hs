@@ -79,8 +79,8 @@ normalizeDirectoryNames currentDirectoy n = case n of
 
 sizeDirectories:: M.Map [Dir] [TreeNode] -> [[Dir]] -> M.Map [Dir] Integer
 sizeDirectories _ [] = M.empty
--- The input can actually be resolved without account for out of order cd-ing.
--- This means we can just use catMaybes, otherwise we would need to account for some directories that aren't calculatable yet
+-- The input can actually be resolved without accounting for out of order cd-ing.
+-- This means we can just use catMaybes, otherwise we would need to account for some directories that aren't calculatable yet when we get Nothings back
 sizeDirectories directoryContents (dir:others) = M.insert dir (sum $ catMaybes componentSizes) otherDirectorySizes
     where otherDirectorySizes = sizeDirectories directoryContents others
           thisDirectoryContents = M.findWithDefault [] dir  directoryContents
