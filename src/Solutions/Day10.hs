@@ -55,6 +55,6 @@ part2 :: [Command] -> String
 part2 = unlines . findLitPixels . calculateRegister
 
 findLitPixels:: [Integer] -> [String]
-findLitPixels register = map (zipWith (curry isLit) [0..]) $ chunksOf 40 register
+findLitPixels = map (zipWith (curry isLit) [0..]) . chunksOf 40
   where isLit :: (Int, Integer) -> Char
-        isLit (pos, reg) = if abs(toInteger pos - reg) <=1 then '#' else '.'
+        isLit (pos, reg) = if abs(toInteger pos - reg) <=1 then '#' else ' '
