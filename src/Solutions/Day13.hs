@@ -56,15 +56,13 @@ parsePacketPair = do
 parsePacket :: Parser Packet
 parsePacket = do
   char '['
-  nodes <- many parseNode
+  nodes <- commaSep parseNode
   char ']'
   pure nodes
 
 parseNode :: Parser Node
 parseNode = do
-  node <- try (Packet <$> parsePacket) <|> try (IntNode <$> integer)
-  optional $ char ','
-  pure node
+  try (Packet <$> parsePacket) <|> try (IntNode <$> integer)
 
 
 part1 :: [PacketPair] -> Int
